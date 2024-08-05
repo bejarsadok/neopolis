@@ -1,0 +1,13 @@
+{% extends "master.html" %} {% block content %}
+<form method="POST" enctype="multipart/form-data">
+  <!-- Security token -->
+  {% csrf_token %}
+
+  <!-- Using the formset -->
+  {{ form.as_p }}
+
+  <button type="submit" class="btn btn-success">submit</button>
+  <a href="{% url 'project_list' %}"><button type="button" class="btn btn-light">Cancel</button></a>
+
+</form>
+{% endblock %}

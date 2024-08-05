@@ -1,0 +1,65 @@
+{% extends "master.html" %} {% block content %}
+<form method="POST" enctype="multipart/form-data">
+  <!-- Security token -->
+  {% csrf_token %}
+
+  <!-- Using the formset -->
+  <div class="form-group m-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Enter title"
+      name="title"
+      value="{{form.title.value}}"
+    />
+  </div>
+  <div class="form-group m-3">
+    <textarea
+      class="form-control"
+      placeholder="Enter description"
+      name="description"
+    >
+{{form.description.value}}</textarea
+    >
+  </div>
+  <div class="form-group m-3">
+    <input
+      type="datetime-local"
+      name="due_date"
+      value="{{ form.due_date.value|date:'Y-m-d\TH:i' }}"
+      default="{{form.due_date.value}}"
+    />
+  </div>
+  <div class="form-check form-group m-3">
+    <input
+    class="form-check-input"
+    type="checkbox"
+    id="flexCheckChecked"
+    name="completed"
+    {% if form.completed.value %}checked{% endif %}
+  />
+  <label class="form-check-label" for="flexCheckChecked"> Completed ? </label>
+  </div>
+  <div class="form-group m-3">
+    <select class="form-control" name="project">
+      <option value="">Select Project</option>
+      {% for project in projects %}
+      <option value="{{ project.id }}"     {% if project.id|stringformat:"s" == form.project.value|stringformat:"s" %}selected{% endif %}>{{ project.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group m-3">
+    <select class="form-control" name="assiged_to">
+      <option value="">Select User</option>
+      {% for user in users %}
+      <option value="{{ user.id }}"  {% if user.id|stringformat:"s" == form.assiged_to.value|stringformat:"s" %}selected{% endif %}>{{ user.username }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-success">submit</button>
+  <a href="{% url 'task_list' %}"
+    ><button type="button" class="btn btn-light">Cancel</button></a
+  >
+</form>
+{% endblock %}

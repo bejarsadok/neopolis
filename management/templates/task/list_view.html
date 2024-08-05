@@ -1,0 +1,51 @@
+{% extends "master.html" %} {% block content %}
+<div class="main">
+  <div>
+    <a href="{% url 'task_create' %}">
+      <button type="button" class="btn btn-primary">Create Task</button>
+    </a>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Due_date</th>
+        <th scope="col">Completed</th>
+        <th scope="col">Project</th>
+        <th scope="col">Assiged_to</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for data in dataset %}
+      <tr>
+        <td>{{ data.id }}</td>
+        <td>{{ data.title }}</td>
+        <td>{{ data.description }}</td>
+        <td>{{ data.due_date }}</td>
+        <td>
+          {% if data.completed %}
+          <span class="badge bg-success"> Done</span>
+          {% else %}
+          <span class="badge bg-warning"> Not Done</span>
+          {% endif %}
+        </td>
+        <td>{{ data.project_name }}</td>
+        <td>{{ data.assiged_to_username }}</td>
+        <td>
+          <a href="{% url 'task_update' data.id %}">
+            <button type="button" class="btn btn-primary">Edit</button>
+          </a>
+          <a href="{% url 'task_delete' data.id %}">
+            <button type="button" class="btn btn-danger">Delete</button>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <!-- <hr /> -->
+</div>
+{% endblock %}
